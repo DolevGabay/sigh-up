@@ -2,7 +2,7 @@ const express = require('express');
 const nodemailer = require('nodemailer');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const XLSX = require('xlsx'); // Node.js library for Excel
+const { MongoClient, ServerApiVersion } = require('mongodb');
 
 const app = express();
 const port = 3001;
@@ -11,29 +11,91 @@ app.use(bodyParser.json());
 app.use(cors()); // Enable CORS for all routes
 app.options('/send-email', cors()); // Enable CORS preflight for the send-email route
 
+const uri = `mongodb+srv://dolevg621:HhCcJFJAIF7sHekR@clustermails.nmi0cju.mongodb.net/?retryWrites=true&w=majority`;
+const client = new MongoClient(uri, {
+  serverApi: {
+    version: ServerApiVersion.v1,
+    strict: true,
+    deprecationErrors: true,
+  },
+});
+
+// Connect to MongoDB when the application starts
+async function connectToMongo() {
+  try {
+    await client.connect();
+    console.log('Connected to MongoDB');
+  } catch (error) {
+    console.error('Error connecting to MongoDB:', error);
+  }
+}
+
+connectToMongo();
+
+// Handle shutdown gracefully by closing the MongoDB connection
+process.on('SIGINT', async () => {
+  try {
+    console.log('Closing MongoDB connection...');
+    await client.close();
+    console.log('MongoDB connection closed');
+    process.exit(0);
+  } catch (error) {
+    console.error('Error closing MongoDB connection:', error);
+    process.exit(1);
+  }
+});
+
+app.post('/addEmail', async (req, res) => {
+  try {
+    const email = req.body.email;
+    console.log(email);
+    const database = client.db('mails');
+    const collection = database.collection('mails');
+    
+    // Insert email into MongoDB collection
+    await collection.insertOne({ email });
+
+    res.status(200).json({ success: true, message: 'Email added to MongoDB' });
+  } catch (error) {
+    console.error('Error adding email to MongoDB:', error);
+    res.status(500).json({ success: false, message: 'Internal server error' });
+  }
+});
 
 app.post('/send-email', async (req, res) => {
-  const { to, subject, text } = req.body;
+  const { subject, text } = req.body;
+  console.log(subject, text)
 
-  const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-      user: 'dolevjunk1903@gmail.com',
-      pass: 'nkyp kdtj utay voen',
-    },
-  });
-
-  const mailOptions = {
-    from: 'your-email@example.com',
-    to,
-    subject,
-    text,
-  };
-
+  // Fetch the list of emails from MongoDB
   try {
-    console.log("Email received:", mailOptions);
+    const database = client.db('mails');
+    const collection = database.collection('mails');
+    const result = await collection.find().toArray();
+
+    if (!result || result.length === 0) {
+      return res.status(400).send('No emails found in MongoDB.');
+    }
+
+    const to = result.map((item) => item.email).join(', '); // Concatenate emails with commas
+    console.log('Emails retrieved from MongoDB:', to);
+
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: 'dolevjunk1903@gmail.com',
+        pass: 'nkyp kdtj utay voen',
+      },
+    });
+
+    const mailOptions = {
+      from: 'your-email@example.com',
+      to,
+      subject,
+      text,
+    };
+
     const info = await transporter.sendMail(mailOptions);
-    console.log(`Email sent: ${info.messageId}`);
+    console.log(`Email sent to ${to}. MessageId: ${info.messageId}`);
     res.send('Email sent successfully');
   } catch (error) {
     console.error('Error sending email:', error);
@@ -41,31 +103,43 @@ app.post('/send-email', async (req, res) => {
   }
 });
 
-app.post('/addEmail', (req, res) => {
-  const { email } = req.body;
-  console.log(email);
+app.get('/get-emails', async (req, res) => {
+  try {
+    const database = client.db('mails');
+    const collection = database.collection('mails');
+    const result = await collection.find().toArray();
 
-  // Read existing Excel file
-  const workbook = XLSX.readFile('email-list.xlsx');
-  const sheetName = workbook.SheetNames[0];
-  const worksheet = workbook.Sheets[sheetName];
+    if (!result || result.length === 0) {
+      return res.status(400).send('No emails found in MongoDB.');
+    }
 
-  // Get the current data as an array of objects
-  const data = XLSX.utils.sheet_to_json(worksheet);
+    const emails = result.map((item) => item.email).join(', '); // Concatenate emails with commas
+    console.log('Emails retrieved from MongoDB:', emails);
 
-  // Add the new email to the data array
-  data.push({ Email: email });
-
-  // Clear the worksheet
-  XLSX.utils.sheet_to_json(worksheet, { header: 1 });
-  XLSX.utils.sheet_add_json(worksheet, data, { header: ['Email'] });
-
-  // Save modified Excel file
-  XLSX.writeFile(workbook, 'email-list.xlsx');
-
-  res.send({ success: true });
+    res.send(emails);
+  } catch (error) {
+    console.error('Error sending email:', error);
+    res.status(500).send('Internal Server Error');
+  }
 });
 
+app.post('/delete-email', async (req, res) => {
+  try {
+    const email = req.body.email;
+    const database = client.db('mails');
+    const collection = database.collection('mails');
+    const result = await collection.deleteOne({ email });
+
+    if (!result || result.length === 0) {
+      return res.status(400).send('No emails found in MongoDB.');
+    }
+
+    res.send('Email deleted successfully');
+  } catch (error) {
+    console.error('Error sending email:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);

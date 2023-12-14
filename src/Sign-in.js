@@ -22,17 +22,18 @@ const SignInForm = () => {
     e.preventDefault();
     // You can perform actions with the form data here
     console.log('Form data submitted:', formData);
-    addEmailToExcel(formData.email);
+    addEmailToMongo(formData.email);
   };
 
-  const addEmailToExcel = async (email) => {
+  const addEmailToMongo = async (email) => {
     try {
-      const response = await axios.post('http://localhost:3001/addEmail', { email });
-      console.log(response.data); // You can handle success messages or errors here
+      await axios.post('http://localhost:3001/addEmail', { email });
+      console.log('Email added to MongoDB successfully');
     } catch (error) {
-      console.error('Error adding email:', error);
+      console.error('Error adding email to MongoDB:', error);
     }
   };
+  
 
   return (
     <div className="modal">
