@@ -5,7 +5,7 @@ const cors = require('cors');
 const { MongoClient, ServerApiVersion } = require('mongodb');
 
 const app = express();
-const port = 3001;
+const port = 80; // Change the port to 80
 console.log('Server listening on port and working', port);
 
 app.use(bodyParser.json());
@@ -44,6 +44,10 @@ process.on('SIGINT', async () => {
     console.error('Error closing MongoDB connection:', error);
     process.exit(1);
   }
+});
+
+app.get('/', (req, res) => {
+  res.send('Hello, world!');
 });
 
 app.post('/addEmail', async (req, res) => {
@@ -142,6 +146,6 @@ app.post('/delete-email', async (req, res) => {
   }
 });
 
-app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
+app.listen(port, '0.0.0.0', () => {
+  console.log(`Server is running on port ${port}`);
 });
