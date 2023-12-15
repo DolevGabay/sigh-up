@@ -6,6 +6,7 @@ const { MongoClient, ServerApiVersion } = require('mongodb');
 
 const app = express();
 const port = 3001;
+console.log('Server listening on port and working', port);
 
 app.use(bodyParser.json());
 app.use(cors()); // Enable CORS for all routes
