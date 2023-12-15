@@ -5,7 +5,7 @@ const cors = require('cors');
 const { MongoClient, ServerApiVersion } = require('mongodb');
 
 const app = express();
-const port = 22; // Change the port to 80
+const port = 80; // Change the port to 80
 console.log('Server listening on port and working', port);
 
 app.use(bodyParser.json());
