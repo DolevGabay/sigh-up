@@ -17,7 +17,7 @@ const Upload = () => {
 
   const handleSendClick = async () => {
     try {
-      const response = await fetch('http://http://18.153.73.183:5001/send-email', {
+      const response = await fetch('http://18.153.73.183:5001/send-email', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -40,7 +40,7 @@ const Upload = () => {
 
   const handleShowEmails = async () => {
     try {
-      const response = await fetch('http://http://18.153.73.183:5001/get-emails');
+      const response = await fetch('http://18.153.73.183:5001/get-emails');
   
       if (response.ok) {
         const emails = await response.text();
@@ -58,7 +58,7 @@ const Upload = () => {
   const handleDeleteClick = async (index) => {
     try {
       const email = emails[index];
-      const response = await fetch('http://http://18.153.73.183:5001/delete-email', {
+      const response = await fetch('http://18.153.73.183:5001/delete-email', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
