@@ -27,7 +27,7 @@ const SignInForm = () => {
 
   const addEmailToMongo = async (email) => {
     try {
-      await axios.post('http://localhost:3001/addEmail', { email });
+      await axios.post('http://http://18.153.73.183:5001/addEmail', { email });
       console.log('Email added to MongoDB successfully');
     } catch (error) {
       console.error('Error adding email to MongoDB:', error);
