@@ -31,7 +31,7 @@ async function connectToMongo() {
   }
 }
 
-//connectToMongo();
+connectToMongo();
 
 // Handle shutdown gracefully by closing the MongoDB connection
 process.on('SIGINT', async () => {
