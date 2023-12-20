@@ -68,6 +68,7 @@ app.post('/webhook', (req, res) => {
 });
 
 app.post('/addEmail', async (req, res) => {
+  console.log('Received request to add email:', req.body);
   try {
     const email = req.body.email;
     console.log(email);
