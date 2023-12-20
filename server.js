@@ -53,10 +53,10 @@ app.get('/', (req, res) => {
 
 app.post('/webhook', (req, res) => {
   // Handle GitHub push event
-  console.log('Received GitHub push event');
+  console.log('Received GitHub push event!');
 
   // Run your deployment script or pull changes here
-  exec('cd /path/to/your/project && git pull origin main && pm2 restart your-app-name', (error, stdout, stderr) => {
+  exec('cd /home/ubuntu/sigh-up && git pull origin main && pm2 restart your-app-name', (error, stdout, stderr) => {
     if (error) {
       console.error(`Error: ${error.message}`);
     } else {
