@@ -93,6 +93,9 @@ const SignInForm = () => {
         <button type="button" className="button button--manage-board" onClick={handleMangeClick}>
           Manage Board
         </button>
+        <button type="button" className="button button--manage-board" onClick={handleMangeClick}>
+          Manage Board
+        </button>
     </div> 
   );
 };
