@@ -77,7 +77,7 @@ const Upload = () => {
   
       if (response.ok) {
         console.log('Email deleted successfully');
-        const newEmails = emails.filter((item) => item !== email);
+        const newEmails = emails.splice(index, 1);
         setEmails(newEmails);
       } else {
         console.error('Failed to delete email:', response.statusText);
