@@ -3,6 +3,7 @@ const nodemailer = require('nodemailer');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const { MongoClient, ServerApiVersion } = require('mongodb');
+const { exec } = require('child_process');
 
 const app = express();
 const port = 5001; // Change the port to 80
@@ -48,6 +49,22 @@ process.on('SIGINT', async () => {
 
 app.get('/', (req, res) => {
   res.send('Hello, world!');
+});
+
+app.post('/webhook', (req, res) => {
+  // Handle GitHub push event
+  console.log('Received GitHub push event');
+
+  // Run your deployment script or pull changes here
+  exec('cd /path/to/your/project && git pull origin main && pm2 restart your-app-name', (error, stdout, stderr) => {
+    if (error) {
+      console.error(`Error: ${error.message}`);
+    } else {
+      console.log(`Success: ${stdout}`);
+    }
+  });
+
+  res.status(200).send('Webhook received successfully');
 });
 
 app.post('/addEmail', async (req, res) => {
