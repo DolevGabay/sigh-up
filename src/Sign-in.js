@@ -2,12 +2,11 @@ import React, { useState } from 'react';
 import './Sign-in.css';
 import axios from 'axios';
 
-
 const SignInForm = () => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    consent: true, // Default value for the checkbox
+    consent: true,
   });
 
   const handleChange = (e) => {
@@ -20,7 +19,6 @@ const SignInForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // You can perform actions with the form data here
     console.log('Form data submitted:', formData);
     addEmailToMongo(formData.email);
   };
@@ -29,28 +27,27 @@ const SignInForm = () => {
     try {
       await axios.post('http://18.153.73.183:5001/addEmail', { email });
       console.log('Email added to MongoDB successfully');
-      // Display success alert
       alert('Email added successfully');
+      setFormData({
+        name: '',
+        email: '',
+        consent: true,
+      });
     } catch (error) {
       console.error('Error adding email to MongoDB:', error);
-      // Display error alert
       alert('Error adding email. Check the console for details.');
     }
   };
-  
-  
+
   const handleMangeClick = () => {
-    // Replace 'yourPassword' with your desired password
     const enteredPassword = prompt('Enter the password:');
-    const correctPassword = 'niki'; // Replace with the actual password
-  
+    const correctPassword = 'niki';
     if (enteredPassword === correctPassword) {
       window.location.href = '/upload';
     } else {
       alert('Incorrect password. Access denied.');
     }
   };
-  
 
   return (
     <div className="modal">
@@ -78,27 +75,27 @@ const SignInForm = () => {
               </li>
               <li className="form-list__row form-list__row--agree">
                 <label>
-                    <input
+                  <input
                     type="checkbox"
                     name="consent"
                     checked={formData.consent}
                     onChange={handleChange}
-                    required  
-                    />
-                    I give my consent to be in touch with me via email using the information I have provided in this form for the purpose of news, updates, and marketing.
+                    required
+                  />
+                  I give my consent to be in touch with me via email using the information I have provided in this form for the purpose of news, updates, and marketing.
                 </label>
-                </li>
+              </li>
               <li>
                 <button type="submit" className="button">Submit</button>
               </li>
             </ul>
           </form>
-        </div> 
-      </div> 
-        <button type="button" className="button button--manage-board" onClick={handleMangeClick}>
-          Manage Board
-        </button>
-    </div> 
+        </div>
+      </div>
+      <button type="button" className="button button--manage-board" onClick={handleMangeClick}>
+        Manage Board
+      </button>
+    </div>
   );
 };
 
