@@ -71,9 +71,18 @@ app.post('/addEmail', async (req, res) => {
   try {
     const email = req.body.email;
     console.log(email);
+
     const database = client.db('mails');
     const collection = database.collection('mails');
-    
+
+    // Check if the email already exists
+    const existingEmail = await collection.findOne({ email });
+
+    if (existingEmail) {
+      // Email already exists, return a response
+      return res.status(400).json({ success: false, message: 'Email already exists' });
+    }
+
     // Insert email into MongoDB collection
     await collection.insertOne({ email });
 
@@ -83,6 +92,7 @@ app.post('/addEmail', async (req, res) => {
     res.status(500).json({ success: false, message: 'Internal server error' });
   }
 });
+
 
 app.post('/send-email', async (req, res) => {
   const { subject, text } = req.body;

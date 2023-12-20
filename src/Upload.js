@@ -36,6 +36,7 @@ const Upload = () => {
   
       if (response.ok) {
         console.log('Email sent successfully');
+        alert('Email sent successfully');
       } else {
         console.error('Failed to send email:', response.statusText);
       }

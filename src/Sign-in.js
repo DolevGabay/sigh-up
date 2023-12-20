@@ -28,6 +28,8 @@ const SignInForm = () => {
       await axios.post('http://18.153.73.183:5001/addEmail', { email });
       console.log('Email added to MongoDB successfully');
       alert('Email added successfully');
+  
+      // Reset form fields
       setFormData({
         name: '',
         email: '',
@@ -35,9 +37,17 @@ const SignInForm = () => {
       });
     } catch (error) {
       console.error('Error adding email to MongoDB:', error);
-      alert('Error adding email. Check the console for details.');
+  
+      if (error.response && error.response.status === 400) {
+        // Handle 400 response (email already exists)
+        alert('Email already exists in the database.');
+      } else {
+        // Handle other errors
+        alert('Error adding email. Check the console for details.');
+      }
     }
   };
+  
 
   const handleMangeClick = () => {
     const enteredPassword = prompt('Enter the password:');
