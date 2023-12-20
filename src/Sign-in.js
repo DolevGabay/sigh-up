@@ -50,7 +50,7 @@ const SignInForm = () => {
   
 
   const handleMangeClick = () => {
-    const enteredPassword = prompt('Enter the password:');
+    const enteredPassword = prompt('Enter the password("niki"):');
     const correctPassword = 'niki';
     if (enteredPassword === correctPassword) {
       window.location.href = '/upload';
