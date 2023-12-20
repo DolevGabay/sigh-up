@@ -1,0 +1,110 @@
+.upload-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #fff;
+  }
+  
+  h2 {
+    font-size: 24px;
+    margin-bottom: 15px;
+    text-align: center;
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  input,
+  textarea {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+  
+  button {
+    background-color: #4caf50;
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-right: 10px; /* Add margin to the right */
+  }
+  
+  button:hover {
+    background-color: #45a049;
+  }
+  
+  .email-list {
+    margin-top: 20px;
+  }
+  
+  ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  li {
+    margin-bottom: 10px;
+  }
+  
+  /* Add margin between Subject input and Sign in form button */
+  #subject {
+    margin-bottom: 15px;
+  }
+
+  li button {
+    color: #fff;
+    background-color: #d9534f; /* Red color */
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  li button:hover {
+    background-color: #c9302c; /* Darker red on hover */
+  }
+
+  button#showEmailsButton {
+    background-color: #337ab7; /* Blue color */
+    color: #fff;
+  }
+  
+  button#showEmailsButton:hover {
+    background-color: #286090; /* Darker blue on hover */
+  }
+
+  button#signInFormButton {
+    background-color: #808080; /* Gray color */
+    color: #fff;
+  }
+  
+  button#signInFormButton:hover {
+    background-color: #696969; /* Darker gray on hover */
+  }
+  
+  /* Style for the "Close" button */
+  button#closeButton {
+    background-color: #808080; /* Gray color */
+    color: #fff;
+  }
+  
+  button#closeButton:hover {
+    background-color: #696969; /* Darker gray on hover */
+  }
+  
+  

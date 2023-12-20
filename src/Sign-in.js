@@ -34,6 +34,18 @@ const SignInForm = () => {
     }
   };
   
+  const handleMangeClick = () => {
+    // Replace 'yourPassword' with your desired password
+    const enteredPassword = prompt('Enter the password:');
+    const correctPassword = 'niki'; // Replace with the actual password
+  
+    if (enteredPassword === correctPassword) {
+      window.location.href = '/upload';
+    } else {
+      alert('Incorrect password. Access denied.');
+    }
+  };
+  
 
   return (
     <div className="modal">
@@ -78,6 +90,9 @@ const SignInForm = () => {
           </form>
         </div> 
       </div> 
+        <button type="button" className="button button--manage-board" onClick={handleMangeClick}>
+          Manage Board
+        </button>
     </div> 
   );
 };

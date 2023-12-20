@@ -231,5 +231,17 @@ overflow-y: auto;
             flex: 3;
     padding: 40px 30px; }
 
+  .modal {
+  position: relative;
+}
+
+.button--manage-board {
+  position: absolute;
+  bottom: 10px; /* Adjust the distance from the bottom as needed */
+  left: 50%;
+  transform: translateX(-50%);
+}
+  
+
   
     

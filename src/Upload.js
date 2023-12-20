@@ -17,6 +17,12 @@ const Upload = () => {
 
   const handleSendClick = async () => {
     try {
+      // Check if subject and message are not empty
+      if (!subject.trim() || !message.trim()) {
+        alert('Subject and message cannot be empty');
+        return;
+      }
+  
       const response = await fetch('http://18.153.73.183:5001/send-email', {
         method: 'POST',
         headers: {
@@ -37,6 +43,7 @@ const Upload = () => {
       console.error('Error sending email:', error);
     }
   };
+  
 
   const handleShowEmails = async () => {
     try {
@@ -86,7 +93,15 @@ const Upload = () => {
     setEmails([]); // Optionally clear the emails array
   };
 
+  const handleFormButtonClick = () => {
+    window.location.href = '/';
+  }
+
   return (
+    <div>
+    <button id="signInFormButton" onClick={handleFormButtonClick}>
+        Back
+      </button>
     <div className="upload-container">
       <h2>Upload Component</h2>
       <div className="form-group">
@@ -109,8 +124,9 @@ const Upload = () => {
         />
       </div>
       <button onClick={handleSendClick}>Send</button>
-      <button onClick={handleShowEmails}>Show emails</button>
-
+      <button id="showEmailsButton" onClick={handleShowEmails}>
+        Show emails
+      </button>
       {/* Display emails */}
       {showEmails && (
         <div className="email-list">
@@ -123,9 +139,12 @@ const Upload = () => {
               </li>
             ))}
           </ul>
-          <button onClick={handleCloseClick}>Close</button>
+          <button id="closeButton" onClick={handleCloseClick}>
+            Close
+          </button>
         </div>
       )}
+    </div>
     </div>
   );
 };
