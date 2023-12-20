@@ -29,10 +29,15 @@ const SignInForm = () => {
     try {
       await axios.post('http://18.153.73.183:5001/addEmail', { email });
       console.log('Email added to MongoDB successfully');
+      // Display success alert
+      alert('Email added successfully');
     } catch (error) {
       console.error('Error adding email to MongoDB:', error);
+      // Display error alert
+      alert('Error adding email. Check the console for details.');
     }
   };
+  
   
   const handleMangeClick = () => {
     // Replace 'yourPassword' with your desired password
